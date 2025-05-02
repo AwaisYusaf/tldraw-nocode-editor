@@ -17,15 +17,17 @@ import {
   updateWireframePosition,
 } from "@/app/tldraw-editor-demo/store/canvasSlice";
 import "tldraw/tldraw.css";
+import { loadElementsOnMount } from "../_helpers/tldraw.helper";
 
 function TldrawWithRedux() {
   const dispatch = useDispatch();
   const groups = useSelector(selectGroups);
-
   const wireframes = useSelector(selectWireframes);
 
   const handleMount = (editor: Editor) => {
     if (!editor) return;
+
+    loadElementsOnMount(editor, groups, wireframes);
     editor.on("event", (e) => {
       if (e.name === "pointer_up") {
         const point = editor.inputs.currentPagePoint;
